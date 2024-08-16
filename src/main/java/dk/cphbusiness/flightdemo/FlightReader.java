@@ -12,7 +12,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.OffsetTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
-import dk.cphbusiness.persistence.jdbc.Demo;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.*;
 
@@ -41,7 +40,7 @@ public class FlightReader {
     public List<FlightDTO> reader(String urlString,  int numberOfRequests, int limit) throws IOException{
         List<FlightDTO> flightDTOList = new ArrayList();
         Properties props = new Properties();
-        props.load(Demo.class.getClassLoader().getResourceAsStream("config.properties"));
+        props.load(FlightReader.class.getClassLoader().getResourceAsStream("config.properties"));
         int offset = 0;
         FlightCollectionDTO flights = null;
         List<FlightCollectionDTO> flightCollectionDTOList = new ArrayList<>();
@@ -108,7 +107,7 @@ public class FlightReader {
     @AllArgsConstructor
     @Builder
     @EqualsAndHashCode
-    private static class FlightDTO{
+    protected static class FlightDTO{
         private String flight_date;
         private String flight_status;
         private AirportTime departure;
