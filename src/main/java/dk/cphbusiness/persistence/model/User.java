@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -47,6 +48,9 @@ public class User {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
+    @ElementCollection
+    private Set<Integer> roleSet = new HashSet<>();
+
     @Builder
     public User (String userName, String password, String phone, LocalDate birthDate) {
         this.userName = userName;
@@ -65,6 +69,11 @@ public class User {
         if (!validatePhoneNumber(this.phone)) {
             throw new IllegalArgumentException("One or more phone numbers are invalid");
         }
+    }
+
+    // Meant for demo of @ElementCollection annotation
+    public void addIds(int id){
+        this.roleSet.add(id);
     }
 
     private boolean validatePhoneNumber(String phoneNumber) {

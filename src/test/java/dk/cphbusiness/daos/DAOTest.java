@@ -37,9 +37,9 @@ class DAOTest {
     @BeforeEach
     void setUp() {
         EntityManager em = emf.createEntityManager();
-        b1 = new Boat("Hans", "Hansen", "hans@mail.com", LocalDate.now());
-        b2 = new Boat("Jette", "Hansen", "jette@mail.com", LocalDate.now());
-        b3 = new Boat("Freya", "Hansen", "freya@mail.com", LocalDate.now());
+        b1 = new Boat("Utson", "DS740", "Wind of Change", LocalDate.now());
+        b2 = new Boat("Zeelander", "8", "Why not", LocalDate.now());
+        b3 = new Boat("Freya", "G45", "Holy smoke", LocalDate.now());
         h1 = new Harbour("Hansvej 111", "Rungsted Havn", 2800, "Lyngby");
         h2 = new Harbour("Fjellvej 232", "Kalkhavnen", 2800, "Lyngby");
         b1.setHarbour(h1);
@@ -65,7 +65,7 @@ class DAOTest {
     @Test
     @DisplayName("Test that we can create a boat")
     void create() {
-        Boat toBeCreated = new Boat("Kurt", "Kurtson", "kurt@mail.com", LocalDate.now());
+        Boat toBeCreated = new Boat("Epson", "DS440", "My Fair Lady", LocalDate.now());
         Boat boat = boatDao.create(toBeCreated);
         assert boat.getId() != null;
     }

@@ -69,46 +69,7 @@ public class Boat {
         this.registrationDate = registrationDate;
     }
 
-    @PrePersist
-    private void prePersist() {
-        this.creationDate = LocalDate.now();
-        if (!validatePhoneNumbers(this.seats)) {
-            throw new IllegalArgumentException("One or more phone numbers are invalid");
-        }
-    }
 
-    @PreUpdate
-    public void preUpdate() {
-        if (!validatePhoneNumbers(this.seats)) {
-            throw new IllegalArgumentException("One or more phone numbers are invalid");
-        }
-    }
-
-    private boolean validatePhoneNumbers(Set<Seat> seats) {
-        for (Seat seat : seats) {
-            if (!validatePhoneNumber(seat.getNumber())) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public void addPhone(Seat seat) {
-        this.seats.add(seat);
-        seat.setBoat(this);
-    }
-    public void removePhone(Seat seat) {
-        this.seats.remove(seat);
-        seat.setBoat(null);
-    }
-    private boolean validatePhoneNumber(String phoneNumber) {
-        if (phoneNumber == null) {
-            return true;
-        }
-
-        return phoneNumber.matches("^[0-9]{8,11}$");
-    }
 
     public void addOwner(Owner owner) {
         this.owners.add(owner);

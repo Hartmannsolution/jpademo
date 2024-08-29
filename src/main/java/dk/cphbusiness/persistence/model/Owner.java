@@ -3,6 +3,8 @@ package dk.cphbusiness.persistence.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +26,9 @@ public class Owner {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
+    private String phoneNumber;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false)
@@ -41,6 +46,31 @@ public class Owner {
     public Owner(String name, OwnerCategory category ) {
         this.name = name;
         this.category = category;
+    }
+
+
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        if (!validatePhoneNumber(this.phoneNumber)) {
+            throw new IllegalArgumentException("Phone number could not be validated");
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+        if (!validatePhoneNumber(this.phoneNumber)) {
+            throw new IllegalArgumentException("Phone number could not be validated");
+        }
+    }
+
+    private boolean validatePhoneNumber(String phoneNumber) {
+        if (phoneNumber == null) {
+            return true;
+        }
+
+        return phoneNumber.matches("^[0-9]{8,11}$");
     }
 
     @Getter
