@@ -4,8 +4,10 @@ import dk.cphbusiness.exceptions.EntityNotFoundException;
 import dk.cphbusiness.persistence.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Purpose:
@@ -39,17 +41,26 @@ public class UserDAO implements IDAO<User>{
 
     @Override
     public Set<User> getAll() {
-        //return null;
-
-        throw new UnsupportedOperationException("Not implemented yet");
+        try(EntityManager em = emf.createEntityManager()){
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+            return query
+                    .getResultList()
+                    .stream()
+                    .collect(Collectors
+                            .toSet());
+        }
     }
 
     @Override
     public User create(User user) {
-        //return null;
-
-        throw new UnsupportedOperationException("Not implemented yet");
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        }
+        return user;
     }
+
 
     @Override
     public User update(User user) {
