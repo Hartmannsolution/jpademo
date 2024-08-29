@@ -1,11 +1,15 @@
 package dk.cphbusiness.persistence.daos;
 
 import dk.cphbusiness.exceptions.EntityNotFoundException;
+import dk.cphbusiness.persistence.HibernateConfig;
 import dk.cphbusiness.persistence.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+import org.hibernate.boot.model.source.internal.hbm.HibernateTypeSourceImpl;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,6 +54,33 @@ public class UserDAO implements IDAO<User>{
                             .toSet());
         }
     }
+
+    public List<User> getUserListOrderedByName(){
+
+        try(EntityManager em = emf.createEntityManager()){
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u ORDER BY u.userName", User.class);
+            return query.getResultList();
+        }
+    }
+
+    public User getUserByUsername(String username){
+        try(EntityManager em = emf.createEntityManager()){
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.userName = :username", User.class);
+            query.setParameter("username", username);
+            return query.getSingleResult();
+        }
+    }
+
+    public static void main(String[] args) {
+        UserDAO userDAO = new UserDAO(HibernateConfig.getEntityManagerFactory());
+//        userDAO.create(new User("Gert", "pass123", "50505050", LocalDate.of(2020,3,3)));
+//        userDAO.create(new User("Charlie", "pass123", "12345678", LocalDate.of(2020,3,3)));
+//        userDAO.create(new User("Helle", "pass123", "32342342", LocalDate.of(2020,3,3)));
+//        userDAO.getUserListOrderedByName().forEach(System.out::println);
+        User gert = userDAO.getUserByUsername("Gert");
+        System.out.println(gert);
+    }
+
 
     @Override
     public User create(User user) {

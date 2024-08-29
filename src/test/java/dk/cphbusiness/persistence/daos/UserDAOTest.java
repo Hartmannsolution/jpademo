@@ -34,10 +34,9 @@ class UserDAOTest {
     void setUp() {
         try(EntityManager em = emf.createEntityManager()){
             u1 = new User("user1", "password1", "30303030", LocalDate.of(2010, 9, 20));
-            u2 = new User("user2", "password1", "30303030", LocalDate.of(2010, 9, 20));
+            u2 = new User("user2", "password1", "40404040", LocalDate.of(2010, 9, 20));
             em.getTransaction().begin();
-            em.remove(u1);
-            em.remove(u2);
+            em.createQuery("DELETE FROM User").executeUpdate();
             em.persist(u1);
             em.persist(u2);
             em.getTransaction().commit();
@@ -52,6 +51,9 @@ class UserDAOTest {
 
     @Test
     void findById() {
+        int actual = u1.getId();
+        int expected = 1;
+        assertEquals(expected, actual);
     }
 
     @Test

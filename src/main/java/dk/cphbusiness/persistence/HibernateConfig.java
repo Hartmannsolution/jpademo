@@ -38,6 +38,7 @@ public class HibernateConfig {
         configuration.addAnnotatedClass(Harbour.class);
         configuration.addAnnotatedClass(Owner.class);
         configuration.addAnnotatedClass(Seat.class);
+        configuration.addAnnotatedClass(User.class);
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {

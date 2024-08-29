@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name="User.deleteAll", query="DELETE FROM User")
 })
+@Table(name="users")
 public class User {
 
     @Id
@@ -40,13 +42,13 @@ public class User {
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "birth_date", nullable = false)
-    private LocalDate birthDate;
+//    @Temporal(TemporalType.DATE)
+//    @Column(name = "birth_date", nullable = false)
+//    private LocalDate birthDate;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "creation_date")
-    private LocalDate creationDate;
+//    @Temporal(TemporalType.DATE)
+//    @Column(name = "creation_date")
+//    private LocalDateTime creationDate;
 
     @ElementCollection //(fetch = FetchType.EAGER)
     private Set<Integer> roleSet = new HashSet<>();
@@ -56,13 +58,13 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.phone = phone;
-        this.birthDate = birthDate;
+//        this.birthDate = birthDate;
     }
 
-    @PrePersist
-    private void prePersist() {
-        this.creationDate = LocalDate.now();
-    }
+//    @PrePersist
+//    private void prePersist() {
+//        this.creationDate = LocalDateTime.now();
+//    }
 
     @PreUpdate
     public void preUpdate() {
@@ -89,12 +91,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && userName.equals(user.userName) && phone.equals(user.phone) && creationDate.equals(user.creationDate);
+        return id.equals(user.id) && userName.equals(user.userName) && phone.equals(user.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, phone, creationDate);
+        return Objects.hash(id, userName, phone);
     }
 
     @Override
@@ -103,10 +105,9 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", phone='" + phone + '\'' +
-                ", creationDate=" + creationDate +
                 '}';
     }
-    public int getAge(){
-        return Period.between(LocalDate.now(), creationDate).getYears();
-    }
+//    public int getAge(){
+//        return Period.between(LocalDate.now(), creationDate.toLocalDate()).getYears();
+//    }
 }

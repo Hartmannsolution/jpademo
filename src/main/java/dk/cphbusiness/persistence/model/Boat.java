@@ -40,7 +40,7 @@ public class Boat {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Temporal(TemporalType.DATE)
+//    @Temporal(TemporalType.DATE)
     @Column(name = "registration_date", nullable = false)
     private LocalDate registrationDate;
 
@@ -58,10 +58,8 @@ public class Boat {
     @ManyToOne
     private Harbour harbour;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "creation_date")
     private LocalDate creationDate;
-    @Temporal(TemporalType.DATE)
     @Column(name = "last_updated")
     private LocalDateTime updatedLast;
 
