@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.HashSet;
 import java.util.Objects;
@@ -60,6 +61,9 @@ public class Boat {
     @Temporal(TemporalType.DATE)
     @Column(name = "creation_date")
     private LocalDate creationDate;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "last_updated")
+    private LocalDateTime updatedLast;
 
     @Builder
     public Boat(String brand, String model, String name, LocalDate registrationDate) {
@@ -67,6 +71,18 @@ public class Boat {
         this.model = model;
         this.name = name;
         this.registrationDate = registrationDate;
+    }
+
+    @PrePersist
+    public void preCreate(){
+        this.creationDate = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        if(this.creationDate == null)
+            this.creationDate = LocalDate.now();
+        this.updatedLast = LocalDateTime.now();
     }
 
 
