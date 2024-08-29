@@ -48,7 +48,7 @@ public class User {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
-    @ElementCollection
+    @ElementCollection //(fetch = FetchType.EAGER)
     private Set<Integer> roleSet = new HashSet<>();
 
     @Builder

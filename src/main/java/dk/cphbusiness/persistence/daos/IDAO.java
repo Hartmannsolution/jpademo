@@ -1,5 +1,7 @@
 package dk.cphbusiness.persistence.daos;
 
+import dk.cphbusiness.exceptions.EntityNotFoundException;
+
 import java.util.Set;
 
 /**
@@ -14,7 +16,7 @@ interface IDAO<T> {
 
 //    EntityManagerFactory getEntityManagerFactory(); // used for getting emf from super class
 
-    T findById(Object id);
+    T findById(Object id) throws EntityNotFoundException;
 
     Set<T> getAll();
 
