@@ -65,16 +65,19 @@ public class BoatDAO implements IDAO<Boat> {
         }
     }
 
-    public Boat update(Boat t) {
+    public Boat update(Boat boat) {
         try (EntityManager em = emf.createEntityManager()) {
-            Boat found = em.find(Boat.class, t.getId()); //
+            Boat found = em.find(Boat.class, boat.getId()); //
             if(found == null) {
                 throw new EntityNotFoundException();
             }
             em.getTransaction().begin();
-            Boat merged = em.merge(t);
+            if(boat.getName()!=null) {
+                found.setName(boat.getName());
+            }
+//            Boat merged = em.merge(boat);
             em.getTransaction().commit();
-            return merged;
+            return found;
         } catch (ConstraintViolationException e) {
             System.out.println("Constraint violation: " + e.getMessage());
             return null;
