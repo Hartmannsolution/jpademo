@@ -23,9 +23,6 @@ public class Seat {
 
     private String description;
 
-    @ManyToOne
-    private Boat boat;
-
     public String getId() {
         return number;
     }

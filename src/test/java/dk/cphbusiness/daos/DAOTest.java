@@ -118,10 +118,11 @@ class DAOTest {
     void removeAddress() {
         var boat = boatDao.findById(b1.getId());
         var harbour = harbourDao.findById(h1.getId());
-        boat.removeHarbour(harbour);
+        boat.removeHarbour();
         boatDao.update(boat);
         boat = boatDao.findById(b1.getId());
-        assert boat.getHarbour() == null;
+        assertNull(boat.getHarbour());
+//        assert boat.getHarbour() == null;
     }
 
 }

@@ -65,7 +65,7 @@ public class BoatDAO implements IDAO<Boat> {
         }
     }
 
-    public Boat update(Boat boat) {
+    public Boat updateName(Boat boat) {
         try (EntityManager em = emf.createEntityManager()) {
             Boat found = em.find(Boat.class, boat.getId()); //
             if(found == null) {
@@ -84,6 +84,42 @@ public class BoatDAO implements IDAO<Boat> {
         }
     }
 
+    public Boat update(Boat boat) {
+        try (EntityManager em = emf.createEntityManager()) {
+            Boat found = em.find(Boat.class, boat.getId()); //
+            if(found == null) {
+                throw new EntityNotFoundException();
+            }
+
+            em.getTransaction().begin();
+
+            // Harbour
+            if(boat.getHarbour() == null){ found.removeHarbour(); }
+            else if(!boat.getHarbour().equals(found.getHarbour())){ found.setHarbour(boat.getHarbour()); }
+            // Owners
+            if(!found.getOwners().equals(boat.getOwners())) {
+                found.getOwners().clear();
+                boat.getOwners().forEach(owner -> {
+                    Owner foundOwner = em.find(Owner.class, owner.getId());
+                    if(foundOwner == null)
+                        em.persist(owner);
+                    else
+                        owner = em.merge(owner);
+                    found.addOwner(owner);
+
+                });
+            }
+            if(boat.getName()!=null) {
+                found.setName(boat.getName());
+            }
+//            Boat merged = em.merge(boat);
+            em.getTransaction().commit();
+            return found;
+        } catch (ConstraintViolationException e) {
+            System.out.println("Constraint violation: " + e.getMessage());
+            return null;
+        }
+    }
     public void delete(Boat boat) {
         try (EntityManager em = emf.createEntityManager()) {
             Boat found = em.find(Boat.class, boat.getId()); //

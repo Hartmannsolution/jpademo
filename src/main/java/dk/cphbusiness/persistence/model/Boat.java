@@ -40,11 +40,10 @@ public class Boat {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-//    @Temporal(TemporalType.DATE)
     @Column(name = "registration_date", nullable = false)
     private LocalDate registrationDate;
 
-    @OneToMany(mappedBy = "boat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // eager because the generic DAO approach doesnt allow for loading specific collections
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // eager because the generic DAO approach doesnt allow for loading specific collections
     private Set<Seat> seats = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -98,9 +97,9 @@ public class Boat {
         this.harbour = harbour;
         harbour.getBoats().add(this);
     }
-    public void removeHarbour(Harbour harbour) {
-        this.harbour = null;
+    public void removeHarbour() {
         harbour.getBoats().remove(this);
+        this.harbour = null;
     }
 
     @Override
@@ -110,8 +109,6 @@ public class Boat {
         Boat boat = (Boat) o;
         return Objects.equals(id, boat.id) && Objects.equals(brand, boat.brand) && Objects.equals(model, boat.model) && Objects.equals(name, boat.getName()) && Objects.equals(registrationDate, boat.registrationDate) && Objects.equals(creationDate, boat.creationDate);
     }
-
-
 
     @Override
     public int hashCode() {
