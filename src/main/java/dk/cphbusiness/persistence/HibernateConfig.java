@@ -1,5 +1,7 @@
 package dk.cphbusiness.persistence;
 
+import dk.cphbusiness.day1.entities.Address;
+import dk.cphbusiness.day1.entities.Person;
 import dk.cphbusiness.persistence.model.*;
 import dk.cphbusiness.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
@@ -39,6 +41,8 @@ public class HibernateConfig {
         configuration.addAnnotatedClass(Owner.class);
         configuration.addAnnotatedClass(Seat.class);
         configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(Person.class);
+        configuration.addAnnotatedClass(Address.class);
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {

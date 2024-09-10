@@ -20,8 +20,8 @@ The entities are found in `dk.cphbusiness.persistence.model`
   - OneToMany (Boat)
 - Owner (id, name, phoneNumber, createdAt, updatedAt, category(ENUM))
   - ManyToMany (Boat)
-    - mappedBy
-
+    - mappedBy 
+    - 
 ## dk.cphbusiness.persistence.jdbc
 To compare to how database connection was done on 2nd semester, an example of using jdbc with a connection pool and datamappers are added to this package.
 

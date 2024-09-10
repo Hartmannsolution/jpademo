@@ -22,7 +22,7 @@
         <hikari.version>5.1.0</hikari.version>
 
         <!-- DATABASE PROJECT NAME ON SERVER  -->
-        <db.name>jpademo</db.name>
+        <db.name>dtodemo</db.name>
     </properties>
 
     <dependencies>
